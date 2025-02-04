@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:56:14 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/04 11:08:39 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/04 13:54:26 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 # define SO_LONG_H
 
 # include "../lib/myLibft/include/my_libft.h"
+# include "../lib/MLX42/include/MLX42/MLX42.h"
 
 #endif

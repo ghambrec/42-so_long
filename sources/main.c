@@ -6,14 +6,9 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/04 10:59:11 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:04:48 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	main(void)
-{
-	ft_printf("Hallo");
-	return (0);
-}
