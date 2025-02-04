@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: ghamnbrec <ghambrec@student.42heilbronn    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/04 19:23:33 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/05 00:03:12 by ghamnbrec        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,24 @@ void	get_window_size(t_game *game)
 	game->vertical = i;
 }
 
+// error check nach jedem notwendig oder am ende nur einmal auf errno pruefen? was ist goto?
 void	load_textures(t_textures *textures)
 {
 	textures->space = mlx_load_png(PNG_SPACE);
 	if (!textures->space)
 		perror_exit_mlx_gha("Could not load space png");
+	textures->wall = mlx_load_png(PNG_WALL);
+	if (!textures->wall)
+		perror_exit_mlx_gha("Could not load wall png");
+	textures->coll = mlx_load_png(PNG_COLL);
+	if (!textures->coll)
+		perror_exit_mlx_gha("Could not load collectible png");
+	textures->exit = mlx_load_png(PNG_EXIT_START);
+	if (!textures->exit)
+		perror_exit_mlx_gha("Could not load exit png");
+	textures->player = mlx_load_png(PNG_PLAYER_RIGHT);
+	if (!textures->player)
+		perror_exit_mlx_gha("Could not load player");
 }
 
 void	load_images(t_game *game, t_img *img, t_textures *textures)
@@ -99,8 +112,22 @@ void	load_images(t_game *game, t_img *img, t_textures *textures)
 	img->space = mlx_texture_to_image(game->mlx, textures->space);
 	if (!img->space)
 		perror_exit_mlx_gha("Failed to load space texture into image");
+	img->wall = mlx_texture_to_image(game->mlx, textures->wall);
+	if (!img->wall)
+		perror_exit_mlx_gha("Failed to load wall texture into image");
+	img->coll = mlx_texture_to_image(game->mlx, textures->coll);
+	if (!img->coll)
+		perror_exit_mlx_gha("Failed to load collectible texture into image");
+	img->exit = mlx_texture_to_image(game->mlx, textures->exit);
+	if (!img->exit)
+		perror_exit_mlx_gha("Failed to load exit texture into image");
+	img->player = mlx_texture_to_image(game->mlx, textures->player);
+	if (!img->player)
+		perror_exit_mlx_gha("Failed to load player texture into image");
 }
 
+// fuer mlx_image_to_window eigene funktion mit x uebergabeparametern (...) und jedes nacheinander darstellen
+// dann je nur eine funktion benoetigt
 void	fill_map(t_game *game, t_img *img)
 {
 	int	i;
@@ -117,11 +144,20 @@ void	fill_map(t_game *game, t_img *img)
 			if (game->map[i][j] == '1')
 				mlx_image_to_window(game->mlx, img->wall, j * PIXEL, i * PIXEL);
 			if (game->map[i][j] == 'C')
-				mlx_image_to_window(game->mlx, img->collectible, j * PIXEL, i * PIXEL);
+			{
+				mlx_image_to_window(game->mlx, img->space, j * PIXEL, i * PIXEL);
+				mlx_image_to_window(game->mlx, img->coll, j * PIXEL, i * PIXEL);
+			}
 			if (game->map[i][j] == 'E')
+			{
+				mlx_image_to_window(game->mlx, img->space, j * PIXEL, i * PIXEL);
 				mlx_image_to_window(game->mlx, img->exit, j * PIXEL, i * PIXEL);
+			}
 			if (game->map[i][j] == 'P')
+			{
+				mlx_image_to_window(game->mlx, img->space, j * PIXEL, i * PIXEL);
 				mlx_image_to_window(game->mlx, img->player, j * PIXEL, i * PIXEL);
+			}
 			j++;
 		}
 		i++;
@@ -130,6 +166,7 @@ void	fill_map(t_game *game, t_img *img)
 
 void	create_window(t_game *game, t_textures *textures, t_img *img)
 {
+	load_textures(textures);
 	get_window_size(game);
 	game->mlx = mlx_init(game->horizontal * PIXEL, game->vertical * PIXEL, PROGRAM_NAME, false);
 	load_images(game, img, textures);
@@ -151,11 +188,8 @@ int	main(int argc, char **argv)
 	check_argument(argc, argv[1]);
 	get_map(argv[1], &game);
 	// validate map hier einbauen!
-	load_textures(&textures);
 	create_window(&game, &textures, &img);
-	
-	
-	// init_game_map(&game, &img);
+
 
 	return (EXIT_SUCCESS);
 }
