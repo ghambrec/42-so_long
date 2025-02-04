@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/04 19:21:18 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/04 19:23:33 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,16 +89,16 @@ void	get_window_size(t_game *game)
 
 void	load_textures(t_textures *textures)
 {
-	textures->player = mlx_load_png(PNG_PLAYER);
-	if (!textures->player)
-		perror_exit_mlx_gha("Could not load player png");
+	textures->space = mlx_load_png(PNG_SPACE);
+	if (!textures->space)
+		perror_exit_mlx_gha("Could not load space png");
 }
 
 void	load_images(t_game *game, t_img *img, t_textures *textures)
 {
-	img->player = mlx_texture_to_image(game->mlx, textures->player);
-	if (!img->player)
-		perror_exit_mlx_gha("Failed to load Player texture into image");
+	img->space = mlx_texture_to_image(game->mlx, textures->space);
+	if (!img->space)
+		perror_exit_mlx_gha("Failed to load space texture into image");
 }
 
 void	fill_map(t_game *game, t_img *img)
