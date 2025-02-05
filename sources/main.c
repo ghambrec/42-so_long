@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 14:56:19 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:15:05 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,34 +220,21 @@ void	walk(t_game *game, int32_t x, int32_t y)
 
 	new_player_xy[0] = game->player_xy[0] + x;
 	new_player_xy[1] = game->player_xy[1] + y;
-	// ft_printf("current player: x%i, y%i\n",game->player_xy[0],game->player_xy[1]);
-	// ft_printf("new player:     x%i, y%i\n",new_player_xy[0],new_player_xy[1]);
-
 	if (game->map[new_player_xy[1]][new_player_xy[0]] == KEY_EXIT && count_collectibles(game) == 0)
 	{
 		put_picture(game->mlx, game->player_xy, 1, game->img_space);
 		ft_memcpy(game->player_xy, new_player_xy, sizeof(new_player_xy));
 		put_picture(game->mlx, game->player_xy, 2, game->img_space, game->img_exit_finished);
-		
+		return ;
 	}
-
-
+	if (game->map[game->player_xy[1]][game->player_xy[0]] == KEY_EXIT)
+		return ;
 	if (game->map[new_player_xy[1]][new_player_xy[0]] == KEY_WALL || game->map[new_player_xy[1]][new_player_xy[0]] == KEY_EXIT)
 		return ;
-	
-	// ft_printf("[%i]\n", count_collectibles(game));
-
-	game->map[new_player_xy[1]][new_player_xy[0]] = KEY_SPACE;
-
-
-	put_picture(game->mlx, game->player_xy, 1, game->img_space);
-	ft_memcpy(game->player_xy, new_player_xy, sizeof(new_player_xy));
-	put_picture(game->mlx, game->player_xy, 1, game->img_player);
-
-
-
-
-	
+	game->map[new_player_xy[1]][new_player_xy[0]] = KEY_SPACE; //feld auf space setzen
+	put_picture(game->mlx, game->player_xy, 1, game->img_space); //vorheriges feld auf space setzen
+	ft_memcpy(game->player_xy, new_player_xy, sizeof(new_player_xy)); //player pos aktualisieren
+	put_picture(game->mlx, game->player_xy, 1, game->img_player); //player auf neues feld drucken
 }
 
 
