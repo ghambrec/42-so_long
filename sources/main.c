@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 12:41:36 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:05:08 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,22 +107,22 @@ void	load_textures(t_textures *textures)
 		perror_exit_mlx("Could not load player");
 }
 
-void	load_images(t_game *game, t_img *img, t_textures *textures)
+void	load_images(t_game *game, t_textures *textures)
 {
-	img->space = mlx_texture_to_image(game->mlx, textures->space);
-	if (!img->space)
+	game->img_space = mlx_texture_to_image(game->mlx, textures->space);
+	if (!game->img_space)
 		perror_exit_mlx("Failed to load space texture into image");
-	img->wall = mlx_texture_to_image(game->mlx, textures->wall);
-	if (!img->wall)
+	game->img_wall = mlx_texture_to_image(game->mlx, textures->wall);
+	if (!game->img_wall)
 		perror_exit_mlx("Failed to load wall texture into image");
-	img->coll = mlx_texture_to_image(game->mlx, textures->coll);
-	if (!img->coll)
+	game->img_coll = mlx_texture_to_image(game->mlx, textures->coll);
+	if (!game->img_coll)
 		perror_exit_mlx("Failed to load collectible texture into image");
-	img->exit = mlx_texture_to_image(game->mlx, textures->exit);
-	if (!img->exit)
+	game->img_exit = mlx_texture_to_image(game->mlx, textures->exit);
+	if (!game->img_exit)
 		perror_exit_mlx("Failed to load exit texture into image");
-	img->player = mlx_texture_to_image(game->mlx, textures->player);
-	if (!img->player)
+	game->img_player = mlx_texture_to_image(game->mlx, textures->player);
+	if (!game->img_player)
 		perror_exit_mlx("Failed to load player texture into image");
 }
 
@@ -149,7 +149,8 @@ void set_player_coords(t_game *game, int32_t xy[2])
 	
 }
 
-void	map_init(t_game *game, t_img *img)
+
+void	map_init(t_game *game)
 {
 	int32_t	xy[2];
 
@@ -160,17 +161,17 @@ void	map_init(t_game *game, t_img *img)
 		while (game->map[xy[1]][xy[0]])
 		{
 			if (game->map[xy[1]][xy[0]] == KEY_SPACE)
-				put_picture(game->mlx, xy, 1, img->space);
+				put_picture(game->mlx, xy, 1, game->img_space);
 			if (game->map[xy[1]][xy[0]] == KEY_WALL)
-				put_picture(game->mlx, xy, 1, img->wall);
+				put_picture(game->mlx, xy, 1, game->img_wall);
 			if (game->map[xy[1]][xy[0]] == KEY_COLL)
-				put_picture(game->mlx, xy, 2, img->space, img->coll);
+				put_picture(game->mlx, xy, 2, game->img_space, game->img_coll);
 			if (game->map[xy[1]][xy[0]] == KEY_EXIT)
-				put_picture(game->mlx, xy, 2, img->space, img->exit);
+				put_picture(game->mlx, xy, 2, game->img_space, game->img_exit);
 			if (game->map[xy[1]][xy[0]] == KEY_PLAYER)
 			{
 				set_player_coords(game, xy);
-				put_picture(game->mlx, xy, 2, img->space, img->player);
+				put_picture(game->mlx, xy, 2, game->img_space, game->img_player);
 			}
 			xy[0]++;
 		}
@@ -178,30 +179,42 @@ void	map_init(t_game *game, t_img *img)
 	}
 }
 
-void	create_game_map(t_game *game, t_textures *textures, t_img *img)
+void	create_game_map(t_game *game, t_textures *textures)
 {
 	load_textures(textures);
 	get_window_size(game);
 	game->mlx = mlx_init(game->screen_x * PIXEL, game->screen_y * PIXEL, PROGRAM_NAME, false);
-	load_images(game, img, textures);
-	map_init(game, img);
+	load_images(game, textures);
+	map_init(game);
 }
 
-int	allowed_to_walk(t_game *game, int32_t x, int32_t y)
+void	walk(t_game *game, int32_t x, int32_t y)
 {
 	int32_t new_player_xy[2];
 
 	new_player_xy[0] = game->player_xy[0] + x;
 	new_player_xy[1] = game->player_xy[1] + y;
-
-	// put_picture(game->mlx, new_player_xy, 1,  )
-	if (game->map[new_player_xy[0]][new_player_xy[1]] == KEY_WALL)
-		return (false);
+	// ft_printf("current player: x%i, y%i\n",game->player_xy[0],game->player_xy[1]);
+	// ft_printf("new player:     x%i, y%i\n",new_player_xy[0],new_player_xy[1]);
+	
+	if (game->map[new_player_xy[1]][new_player_xy[0]] == KEY_WALL)
+		return ;
+	// wenn ende und noch nicht alle coll eingesammelt auch return ;
+	
 	
 
 
-	return (true);
+	put_picture(game->mlx, game->player_xy, 1, game->img_space);
+	ft_memcpy(game->player_xy, new_player_xy, sizeof(new_player_xy));
+	put_picture(game->mlx, game->player_xy, 1, game->img_player);
+
+
+
+
+	
 }
+
+
 
 void	keyhook(mlx_key_data_t keydata, void* param)
 {
@@ -216,23 +229,25 @@ void	keyhook(mlx_key_data_t keydata, void* param)
 		return ;
 	}
 	if (keydata.key == MLX_KEY_W)
-	{
-		ft_printf("%i\n",allowed_to_walk(game, 0, -1));
-	}
-
-	
+		walk(game, 0, -1);
+	if (keydata.key == MLX_KEY_A)
+		walk(game, -1, 0);
+	if (keydata.key == MLX_KEY_S)
+		walk(game, 0, 1);
+	if (keydata.key == MLX_KEY_D)
+		walk(game, 1, 0);
 }
 
 int	main(int argc, char **argv)
 {
 	t_game		game;
 	t_textures	textures;
-	t_img		img;
+	// t_img		img;
 	
 	check_argument(argc, argv[1]);
 	get_map(argv[1], &game);
 	// validate map hier einbauen!
-	create_game_map(&game, &textures, &img);
+	create_game_map(&game, &textures);
 	mlx_key_hook(game.mlx, keyhook, &game);
 	mlx_loop(game.mlx);
 	mlx_terminate(game.mlx);

@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:56:14 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 12:36:41 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/05 13:48:42 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ typedef struct s_textures
 	mlx_texture_t	*player;
 }	t_textures;
 
-typedef struct s_img
-{
-	mlx_image_t	*space;
-	mlx_image_t	*wall;
-	mlx_image_t	*coll;
-	mlx_image_t	*exit;
-	mlx_image_t	*player;
-}	t_img;
+// typedef struct s_img
+// {
+// 	mlx_image_t	*space;
+// 	mlx_image_t	*wall;
+// 	mlx_image_t	*coll;
+// 	mlx_image_t	*exit;
+// 	mlx_image_t	*player;
+// }	t_img;
 
 typedef struct s_game
 {
@@ -59,8 +59,14 @@ typedef struct s_game
 	char		**map;
 	int32_t		screen_x;
 	int32_t		screen_y;
-	int			number_moves;
 	int32_t		player_xy[2];
+	int			number_coll;
+	int			number_moves;
+	mlx_image_t	*img_space;
+	mlx_image_t	*img_wall;
+	mlx_image_t	*img_coll;
+	mlx_image_t	*img_exit;
+	mlx_image_t	*img_player;
 }	t_game;
 
 #endif
