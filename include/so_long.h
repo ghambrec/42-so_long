@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ghamnbrec <ghambrec@student.42heilbronn    +#+  +:+       +#+        */
+/*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:56:14 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 00:00:27 by ghamnbrec        ###   ########.fr       */
+/*   Updated: 2025/02/05 11:08:37 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ typedef struct s_game
 {
 	mlx_t	*mlx;
 	char	**map;
-	int		horizontal;
-	int		vertical;
+	int		screen_x;
+	int		screen_y;
 	int		number_moves;
 }	t_game;
 

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ghamnbrec <ghambrec@student.42heilbronn    +#+  +:+       +#+        */
+/*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 00:03:12 by ghamnbrec        ###   ########.fr       */
+/*   Updated: 2025/02/05 11:09:27 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
 // // noch testen!!
-void	perror_exit_mlx_gha(char *error)
+void	perror_exit_mlx(char *error)
 {
 	ft_putendl_fd("Error", STDERR_FILENO);
 	ft_putstr_fd(error, STDERR_FILENO);
@@ -78,13 +78,13 @@ void	get_window_size(t_game *game)
 {
 	int	i;
 
-	game->horizontal = ft_strlen(game->map[0]);
+	game->screen_x = ft_strlen(game->map[0]);
 	i = 0;
 	while (game->map[i] != NULL && game->map[i][0] == '1')
 	{
 		i++;
 	}
-	game->vertical = i;
+	game->screen_y = i;
 }
 
 // error check nach jedem notwendig oder am ende nur einmal auf errno pruefen? was ist goto?
@@ -92,75 +92,80 @@ void	load_textures(t_textures *textures)
 {
 	textures->space = mlx_load_png(PNG_SPACE);
 	if (!textures->space)
-		perror_exit_mlx_gha("Could not load space png");
+		perror_exit_mlx("Could not load space png");
 	textures->wall = mlx_load_png(PNG_WALL);
 	if (!textures->wall)
-		perror_exit_mlx_gha("Could not load wall png");
+		perror_exit_mlx("Could not load wall png");
 	textures->coll = mlx_load_png(PNG_COLL);
 	if (!textures->coll)
-		perror_exit_mlx_gha("Could not load collectible png");
+		perror_exit_mlx("Could not load collectible png");
 	textures->exit = mlx_load_png(PNG_EXIT_START);
 	if (!textures->exit)
-		perror_exit_mlx_gha("Could not load exit png");
+		perror_exit_mlx("Could not load exit png");
 	textures->player = mlx_load_png(PNG_PLAYER_RIGHT);
 	if (!textures->player)
-		perror_exit_mlx_gha("Could not load player");
+		perror_exit_mlx("Could not load player");
 }
 
 void	load_images(t_game *game, t_img *img, t_textures *textures)
 {
 	img->space = mlx_texture_to_image(game->mlx, textures->space);
 	if (!img->space)
-		perror_exit_mlx_gha("Failed to load space texture into image");
+		perror_exit_mlx("Failed to load space texture into image");
 	img->wall = mlx_texture_to_image(game->mlx, textures->wall);
 	if (!img->wall)
-		perror_exit_mlx_gha("Failed to load wall texture into image");
+		perror_exit_mlx("Failed to load wall texture into image");
 	img->coll = mlx_texture_to_image(game->mlx, textures->coll);
 	if (!img->coll)
-		perror_exit_mlx_gha("Failed to load collectible texture into image");
+		perror_exit_mlx("Failed to load collectible texture into image");
 	img->exit = mlx_texture_to_image(game->mlx, textures->exit);
 	if (!img->exit)
-		perror_exit_mlx_gha("Failed to load exit texture into image");
+		perror_exit_mlx("Failed to load exit texture into image");
 	img->player = mlx_texture_to_image(game->mlx, textures->player);
 	if (!img->player)
-		perror_exit_mlx_gha("Failed to load player texture into image");
+		perror_exit_mlx("Failed to load player texture into image");
 }
 
-// fuer mlx_image_to_window eigene funktion mit x uebergabeparametern (...) und jedes nacheinander darstellen
-// dann je nur eine funktion benoetigt
-void	fill_map(t_game *game, t_img *img)
+void	put_picture(mlx_t *mlx, int32_t x, int32_t y, int c, ...)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	while (game->map[i])
+	va_list		imgs;
+	mlx_image_t	*img;
+	
+	va_start(imgs, c);
+	while (c > 0)
 	{
-		j = 0;
-		while (game->map[i][j])
+		img = va_arg(imgs, mlx_image_t *);
+		if (img)
+			mlx_image_to_window(mlx, img, x * PIXEL, y * PIXEL);
+		c--;
+	}
+	va_end(imgs);
+}
+
+void	map_init(t_game *game, t_img *img)
+{
+	int32_t	x;
+	int32_t	y;
+
+	y = 0;
+	while (game->map[y])
+	{
+		x = 0;
+		while (game->map[y][x])
 		{
-			if (game->map[i][j] == '0')
-				mlx_image_to_window(game->mlx, img->space, j * PIXEL, i * PIXEL);
-			if (game->map[i][j] == '1')
-				mlx_image_to_window(game->mlx, img->wall, j * PIXEL, i * PIXEL);
-			if (game->map[i][j] == 'C')
-			{
-				mlx_image_to_window(game->mlx, img->space, j * PIXEL, i * PIXEL);
-				mlx_image_to_window(game->mlx, img->coll, j * PIXEL, i * PIXEL);
-			}
-			if (game->map[i][j] == 'E')
-			{
-				mlx_image_to_window(game->mlx, img->space, j * PIXEL, i * PIXEL);
-				mlx_image_to_window(game->mlx, img->exit, j * PIXEL, i * PIXEL);
-			}
-			if (game->map[i][j] == 'P')
-			{
-				mlx_image_to_window(game->mlx, img->space, j * PIXEL, i * PIXEL);
-				mlx_image_to_window(game->mlx, img->player, j * PIXEL, i * PIXEL);
-			}
-			j++;
+			if (game->map[y][x] == '0')
+				put_picture(game->mlx, x, y, 1, img->space);
+			if (game->map[y][x] == '1')
+				put_picture(game->mlx, x, y, 1, img->wall);
+			if (game->map[y][x] == 'C')
+				put_picture(game->mlx, x, y, 2, img->space, img->coll);
+			if (game->map[y][x] == 'E')
+				put_picture(game->mlx, x, y, 2, img->space, img->exit);
+			if (game->map[y][x] == 'P')
+				put_picture(game->mlx, x, y, 2, img->space, img->player);
+			x++;
 		}
-		i++;
+		y++;
 	}
 }
 
@@ -168,9 +173,9 @@ void	create_window(t_game *game, t_textures *textures, t_img *img)
 {
 	load_textures(textures);
 	get_window_size(game);
-	game->mlx = mlx_init(game->horizontal * PIXEL, game->vertical * PIXEL, PROGRAM_NAME, false);
+	game->mlx = mlx_init(game->screen_x * PIXEL, game->screen_y * PIXEL, PROGRAM_NAME, false);
 	load_images(game, img, textures);
-	fill_map(game, img);
+	map_init(game, img);
 	
 	
 	
