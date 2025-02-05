@@ -6,7 +6,7 @@
 #    By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 13:35:48 by ghambrec          #+#    #+#              #
-#    Updated: 2025/02/05 11:36:27 by ghambrec         ###   ########.fr        #
+#    Updated: 2025/02/05 15:48:25 by ghambrec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ MLX_FULL = $(MLX_NAME) -ldl -lglfw -pthread -lm
 
 # ---------- SOURCES ---------- #
 VPATH = ./sources
-SOURCES =	main.c
+SOURCES =	main.c error_handling.c textures.c player.c
 
 # ---------- OBJECTS ---------- #
 OBJECT_DIR = objects

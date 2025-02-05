@@ -6,21 +6,11 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 15:33:58 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:49:11 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-// // noch testen!!
-void	perror_exit_mlx(char *error)
-{
-	ft_putendl_fd("Error", STDERR_FILENO);
-	ft_putstr_fd(error, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	// ft_putendl_fd(mlx_strerror(mlx_errno),STDERR_FILENO);
-	exit(mlx_errno);
-}
 
 void	check_argument(int argc, char *map_name)
 {
@@ -87,72 +77,7 @@ void	get_window_size(t_game *game)
 	game->screen_y = i;
 }
 
-// error check nach jedem notwendig oder am ende nur einmal auf errno pruefen? was ist goto?
-void	load_textures(t_textures *textures)
-{
-	textures->space = mlx_load_png(PNG_SPACE);
-	if (!textures->space)
-		perror_exit_mlx("Could not load space png");
-	textures->wall = mlx_load_png(PNG_WALL);
-	if (!textures->wall)
-		perror_exit_mlx("Could not load wall png");
-	textures->coll = mlx_load_png(PNG_COLL);
-	if (!textures->coll)
-		perror_exit_mlx("Could not load collectible png");
-	textures->exit = mlx_load_png(PNG_EXIT_START);
-	if (!textures->exit)
-		perror_exit_mlx("Could not load exit png");
-	textures->exit_finished = mlx_load_png(PNG_EXIT_FINISH);
-	if (!textures->exit_finished)
-		perror_exit_mlx("Could not load exit_finished png");
-	textures->player_right = mlx_load_png(PNG_PLAYER_RIGHT);
-	if (!textures->player_right)
-		perror_exit_mlx("Could not load player_right");
-	textures->player_left = mlx_load_png(PNG_PLAYER_LEFT);
-	if (!textures->player_left)
-		perror_exit_mlx("Could not load player_left");
-}
 
-void	load_images(t_game *game, t_textures *textures)
-{
-	game->img_space = mlx_texture_to_image(game->mlx, textures->space);
-	if (!game->img_space)
-		perror_exit_mlx("Failed to load space texture into image");
-	game->img_wall = mlx_texture_to_image(game->mlx, textures->wall);
-	if (!game->img_wall)
-		perror_exit_mlx("Failed to load wall texture into image");
-	game->img_coll = mlx_texture_to_image(game->mlx, textures->coll);
-	if (!game->img_coll)
-		perror_exit_mlx("Failed to load collectible texture into image");
-	game->img_exit = mlx_texture_to_image(game->mlx, textures->exit);
-	if (!game->img_exit)
-		perror_exit_mlx("Failed to load exit texture into image");
-	game->img_exit_finished = mlx_texture_to_image(game->mlx, textures->exit_finished);
-	if (!game->img_exit_finished)
-		perror_exit_mlx("Failed to load exit_finished texture into image");
-	game->img_player_right = mlx_texture_to_image(game->mlx, textures->player_right);
-	if (!game->img_player_right)
-		perror_exit_mlx("Failed to load player_right texture into image");
-	game->img_player_left = mlx_texture_to_image(game->mlx, textures->player_left);
-	if (!game->img_player_left)
-		perror_exit_mlx("Failed to load player_left texture into image");
-}
-
-void	put_picture(mlx_t *mlx, int32_t xy[2], int c, ...)
-{
-	va_list		imgs;
-	mlx_image_t	*img;
-	
-	va_start(imgs, c);
-	while (c > 0)
-	{
-		img = va_arg(imgs, mlx_image_t *);
-		if (img)
-			mlx_image_to_window(mlx, img, xy[0] * PIXEL, xy[1] * PIXEL);
-		c--;
-	}
-	va_end(imgs);
-}
 
 void set_player_coords(t_game *game, int32_t xy[2])
 {
@@ -221,57 +146,7 @@ void	create_game_map(t_game *game, t_textures *textures)
 	map_init(game);
 }
 
-void	walk(t_game *game, int32_t x, int32_t y, char player_dir)
-{
-	int32_t new_player_xy[2];
 
-	new_player_xy[0] = game->player_xy[0] + x;
-	new_player_xy[1] = game->player_xy[1] + y;
-	if (game->map[game->player_xy[1]][game->player_xy[0]] == KEY_EXIT)
-		return ;
-	if (game->map[new_player_xy[1]][new_player_xy[0]] == KEY_EXIT && count_collectibles(game) == 0)
-	{
-		put_picture(game->mlx, game->player_xy, 1, game->img_space);
-		ft_memcpy(game->player_xy, new_player_xy, sizeof(new_player_xy));
-		put_picture(game->mlx, game->player_xy, 2, game->img_space, game->img_exit_finished);
-		return ;
-	}
-	if (game->map[new_player_xy[1]][new_player_xy[0]] == KEY_WALL || game->map[new_player_xy[1]][new_player_xy[0]] == KEY_EXIT)
-		return ;
-	game->map[new_player_xy[1]][new_player_xy[0]] = KEY_SPACE; //feld auf space setzen
-	put_picture(game->mlx, game->player_xy, 1, game->img_space); //vorheriges feld auf space setzen
-	ft_memcpy(game->player_xy, new_player_xy, sizeof(new_player_xy)); //player pos aktualisieren
-	if (player_dir != '0')
-		game->player_direction = player_dir;
-	if (game->player_direction == 'R')
-		put_picture(game->mlx, game->player_xy, 1, game->img_player_right); //player auf neues feld drucken
-	else
-		put_picture(game->mlx, game->player_xy, 1, game->img_player_left); //player auf neues feld drucken
-}
-
-
-
-void	keyhook(mlx_key_data_t keydata, void* param)
-{
-	t_game *game;
-
-	game = (t_game *)param;
-	if (keydata.action == MLX_RELEASE)
-		return ;
-	if (keydata.key == MLX_KEY_ESCAPE)
-	{
-		mlx_close_window(game->mlx);
-		return ;
-	}
-	if (keydata.key == MLX_KEY_W)
-		walk(game, 0, -1, '0');
-	if (keydata.key == MLX_KEY_A)
-		walk(game, -1, 0, 'L');
-	if (keydata.key == MLX_KEY_S)
-		walk(game, 0, 1, '0');
-	if (keydata.key == MLX_KEY_D)
-		walk(game, 1, 0, 'R');
-}
 
 int	main(int argc, char **argv)
 {

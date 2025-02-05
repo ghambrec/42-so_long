@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:56:14 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 15:19:27 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:49:06 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,22 @@ typedef struct s_game
 	mlx_image_t	*img_player_right;
 	mlx_image_t	*img_player_left;
 }	t_game;
+
+// to sort :((()))
+int	count_collectibles(t_game *game);
+
+
+// ERROR-HANDLING
+void	perror_exit_mlx(char *error);
+
+// TEXTURES
+void	load_textures(t_textures *textures);
+void	load_images(t_game *game, t_textures *textures);
+void	put_picture(mlx_t *mlx, int32_t xy[2], int c, ...);
+
+// PLAYER
+void	walk(t_game *game, int32_t x, int32_t y, char player_dir);
+void	keyhook(mlx_key_data_t keydata, void* param);
+
 
 #endif
