@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:56:14 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 11:48:55 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:36:41 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 # define PROGRAM_NAME "so_long"
 # define PIXEL 32
 
+# define KEY_SPACE '0'
+# define KEY_WALL '1'
+# define KEY_COLL 'C'
+# define KEY_EXIT 'E'
+# define KEY_PLAYER 'P'
 
 # define PNG_SPACE "./textures/green_32.png"
 # define PNG_WALL "./textures/brick_32.png"
@@ -55,8 +60,7 @@ typedef struct s_game
 	int32_t		screen_x;
 	int32_t		screen_y;
 	int			number_moves;
-	int32_t		player_x;
-	int32_t		player_y;
+	int32_t		player_xy[2];
 }	t_game;
 
 #endif

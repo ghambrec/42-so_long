@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 12:12:51 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:41:36 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,37 +142,39 @@ void	put_picture(mlx_t *mlx, int32_t xy[2], int c, ...)
 	va_end(imgs);
 }
 
-void set_player_coords(t_game *game, int32_t x, int32_t y)
+void set_player_coords(t_game *game, int32_t xy[2])
 {
-	game->player_x = x;
-	game->player_y = y;
+	game->player_xy[0] = xy[0];
+	game->player_xy[1] = xy[1];
+	
 }
 
 void	map_init(t_game *game, t_img *img)
 {
 	int32_t	xy[2];
 
-	xy[1] = -1;
-	while (game->map[++xy[1]])
+	xy[1] = 0;
+	while (game->map[xy[1]])
 	{
 		xy[0] = 0;
 		while (game->map[xy[1]][xy[0]])
 		{
-			if (game->map[xy[1]][xy[0]] == '0')
+			if (game->map[xy[1]][xy[0]] == KEY_SPACE)
 				put_picture(game->mlx, xy, 1, img->space);
-			if (game->map[xy[1]][xy[0]] == '1')
+			if (game->map[xy[1]][xy[0]] == KEY_WALL)
 				put_picture(game->mlx, xy, 1, img->wall);
-			if (game->map[xy[1]][xy[0]] == 'C')
+			if (game->map[xy[1]][xy[0]] == KEY_COLL)
 				put_picture(game->mlx, xy, 2, img->space, img->coll);
-			if (game->map[xy[1]][xy[0]] == 'E')
+			if (game->map[xy[1]][xy[0]] == KEY_EXIT)
 				put_picture(game->mlx, xy, 2, img->space, img->exit);
-			if (game->map[xy[1]][xy[0]] == 'P')
+			if (game->map[xy[1]][xy[0]] == KEY_PLAYER)
 			{
-				set_player_coords(game, xy[0], xy[1]);
+				set_player_coords(game, xy);
 				put_picture(game->mlx, xy, 2, img->space, img->player);
 			}
 			xy[0]++;
 		}
+		xy[1]++;
 	}
 }
 
@@ -185,11 +187,29 @@ void	create_game_map(t_game *game, t_textures *textures, t_img *img)
 	map_init(game, img);
 }
 
+int	allowed_to_walk(t_game *game, int32_t x, int32_t y)
+{
+	int32_t new_player_xy[2];
+
+	new_player_xy[0] = game->player_xy[0] + x;
+	new_player_xy[1] = game->player_xy[1] + y;
+
+	// put_picture(game->mlx, new_player_xy, 1,  )
+	if (game->map[new_player_xy[0]][new_player_xy[1]] == KEY_WALL)
+		return (false);
+	
+
+
+	return (true);
+}
+
 void	keyhook(mlx_key_data_t keydata, void* param)
 {
 	t_game *game;
 
 	game = (t_game *)param;
+	if (keydata.action == MLX_RELEASE)
+		return ;
 	if (keydata.key == MLX_KEY_ESCAPE)
 	{
 		mlx_close_window(game->mlx);
@@ -197,9 +217,8 @@ void	keyhook(mlx_key_data_t keydata, void* param)
 	}
 	if (keydata.key == MLX_KEY_W)
 	{
-		
+		ft_printf("%i\n",allowed_to_walk(game, 0, -1));
 	}
-
 
 	
 }
