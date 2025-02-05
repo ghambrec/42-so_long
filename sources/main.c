@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 11:09:27 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/05 12:12:51 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	load_images(t_game *game, t_img *img, t_textures *textures)
 		perror_exit_mlx("Failed to load player texture into image");
 }
 
-void	put_picture(mlx_t *mlx, int32_t x, int32_t y, int c, ...)
+void	put_picture(mlx_t *mlx, int32_t xy[2], int c, ...)
 {
 	va_list		imgs;
 	mlx_image_t	*img;
@@ -136,51 +136,71 @@ void	put_picture(mlx_t *mlx, int32_t x, int32_t y, int c, ...)
 	{
 		img = va_arg(imgs, mlx_image_t *);
 		if (img)
-			mlx_image_to_window(mlx, img, x * PIXEL, y * PIXEL);
+			mlx_image_to_window(mlx, img, xy[0] * PIXEL, xy[1] * PIXEL);
 		c--;
 	}
 	va_end(imgs);
 }
 
+void set_player_coords(t_game *game, int32_t x, int32_t y)
+{
+	game->player_x = x;
+	game->player_y = y;
+}
+
 void	map_init(t_game *game, t_img *img)
 {
-	int32_t	x;
-	int32_t	y;
+	int32_t	xy[2];
 
-	y = 0;
-	while (game->map[y])
+	xy[1] = -1;
+	while (game->map[++xy[1]])
 	{
-		x = 0;
-		while (game->map[y][x])
+		xy[0] = 0;
+		while (game->map[xy[1]][xy[0]])
 		{
-			if (game->map[y][x] == '0')
-				put_picture(game->mlx, x, y, 1, img->space);
-			if (game->map[y][x] == '1')
-				put_picture(game->mlx, x, y, 1, img->wall);
-			if (game->map[y][x] == 'C')
-				put_picture(game->mlx, x, y, 2, img->space, img->coll);
-			if (game->map[y][x] == 'E')
-				put_picture(game->mlx, x, y, 2, img->space, img->exit);
-			if (game->map[y][x] == 'P')
-				put_picture(game->mlx, x, y, 2, img->space, img->player);
-			x++;
+			if (game->map[xy[1]][xy[0]] == '0')
+				put_picture(game->mlx, xy, 1, img->space);
+			if (game->map[xy[1]][xy[0]] == '1')
+				put_picture(game->mlx, xy, 1, img->wall);
+			if (game->map[xy[1]][xy[0]] == 'C')
+				put_picture(game->mlx, xy, 2, img->space, img->coll);
+			if (game->map[xy[1]][xy[0]] == 'E')
+				put_picture(game->mlx, xy, 2, img->space, img->exit);
+			if (game->map[xy[1]][xy[0]] == 'P')
+			{
+				set_player_coords(game, xy[0], xy[1]);
+				put_picture(game->mlx, xy, 2, img->space, img->player);
+			}
+			xy[0]++;
 		}
-		y++;
 	}
 }
 
-void	create_window(t_game *game, t_textures *textures, t_img *img)
+void	create_game_map(t_game *game, t_textures *textures, t_img *img)
 {
 	load_textures(textures);
 	get_window_size(game);
 	game->mlx = mlx_init(game->screen_x * PIXEL, game->screen_y * PIXEL, PROGRAM_NAME, false);
 	load_images(game, img, textures);
 	map_init(game, img);
-	
-	
-	
-	
-	mlx_loop(game->mlx);
+}
+
+void	keyhook(mlx_key_data_t keydata, void* param)
+{
+	t_game *game;
+
+	game = (t_game *)param;
+	if (keydata.key == MLX_KEY_ESCAPE)
+	{
+		mlx_close_window(game->mlx);
+		return ;
+	}
+	if (keydata.key == MLX_KEY_W)
+	{
+		
+	}
+
+
 	
 }
 
@@ -193,8 +213,9 @@ int	main(int argc, char **argv)
 	check_argument(argc, argv[1]);
 	get_map(argv[1], &game);
 	// validate map hier einbauen!
-	create_window(&game, &textures, &img);
-
-
+	create_game_map(&game, &textures, &img);
+	mlx_key_hook(game.mlx, keyhook, &game);
+	mlx_loop(game.mlx);
+	mlx_terminate(game.mlx);
 	return (EXIT_SUCCESS);
 }

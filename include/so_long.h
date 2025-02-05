@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:56:14 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 11:08:37 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:48:55 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ typedef struct s_img
 
 typedef struct s_game
 {
-	mlx_t	*mlx;
-	char	**map;
-	int		screen_x;
-	int		screen_y;
-	int		number_moves;
+	mlx_t		*mlx;
+	char		**map;
+	int32_t		screen_x;
+	int32_t		screen_y;
+	int			number_moves;
+	int32_t		player_x;
+	int32_t		player_y;
 }	t_game;
 
 #endif
