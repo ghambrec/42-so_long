@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 15:15:05 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:33:58 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,12 @@ void	load_textures(t_textures *textures)
 	textures->exit_finished = mlx_load_png(PNG_EXIT_FINISH);
 	if (!textures->exit_finished)
 		perror_exit_mlx("Could not load exit_finished png");
-	textures->player = mlx_load_png(PNG_PLAYER_RIGHT);
-	if (!textures->player)
-		perror_exit_mlx("Could not load player");
+	textures->player_right = mlx_load_png(PNG_PLAYER_RIGHT);
+	if (!textures->player_right)
+		perror_exit_mlx("Could not load player_right");
+	textures->player_left = mlx_load_png(PNG_PLAYER_LEFT);
+	if (!textures->player_left)
+		perror_exit_mlx("Could not load player_left");
 }
 
 void	load_images(t_game *game, t_textures *textures)
@@ -127,9 +130,12 @@ void	load_images(t_game *game, t_textures *textures)
 	game->img_exit_finished = mlx_texture_to_image(game->mlx, textures->exit_finished);
 	if (!game->img_exit_finished)
 		perror_exit_mlx("Failed to load exit_finished texture into image");
-	game->img_player = mlx_texture_to_image(game->mlx, textures->player);
-	if (!game->img_player)
-		perror_exit_mlx("Failed to load player texture into image");
+	game->img_player_right = mlx_texture_to_image(game->mlx, textures->player_right);
+	if (!game->img_player_right)
+		perror_exit_mlx("Failed to load player_right texture into image");
+	game->img_player_left = mlx_texture_to_image(game->mlx, textures->player_left);
+	if (!game->img_player_left)
+		perror_exit_mlx("Failed to load player_left texture into image");
 }
 
 void	put_picture(mlx_t *mlx, int32_t xy[2], int c, ...)
@@ -152,6 +158,7 @@ void set_player_coords(t_game *game, int32_t xy[2])
 {
 	game->player_xy[0] = xy[0];
 	game->player_xy[1] = xy[1];
+	game->player_direction = 'R';
 }
 
 int	count_collectibles(t_game *game)
@@ -197,7 +204,7 @@ void	map_init(t_game *game)
 			if (game->map[xy[1]][xy[0]] == KEY_PLAYER)
 			{
 				set_player_coords(game, xy);
-				put_picture(game->mlx, xy, 2, game->img_space, game->img_player);
+				put_picture(game->mlx, xy, 2, game->img_space, game->img_player_right);
 			}
 			xy[0]++;
 		}
@@ -214,12 +221,14 @@ void	create_game_map(t_game *game, t_textures *textures)
 	map_init(game);
 }
 
-void	walk(t_game *game, int32_t x, int32_t y)
+void	walk(t_game *game, int32_t x, int32_t y, char player_dir)
 {
 	int32_t new_player_xy[2];
 
 	new_player_xy[0] = game->player_xy[0] + x;
 	new_player_xy[1] = game->player_xy[1] + y;
+	if (game->map[game->player_xy[1]][game->player_xy[0]] == KEY_EXIT)
+		return ;
 	if (game->map[new_player_xy[1]][new_player_xy[0]] == KEY_EXIT && count_collectibles(game) == 0)
 	{
 		put_picture(game->mlx, game->player_xy, 1, game->img_space);
@@ -227,14 +236,17 @@ void	walk(t_game *game, int32_t x, int32_t y)
 		put_picture(game->mlx, game->player_xy, 2, game->img_space, game->img_exit_finished);
 		return ;
 	}
-	if (game->map[game->player_xy[1]][game->player_xy[0]] == KEY_EXIT)
-		return ;
 	if (game->map[new_player_xy[1]][new_player_xy[0]] == KEY_WALL || game->map[new_player_xy[1]][new_player_xy[0]] == KEY_EXIT)
 		return ;
 	game->map[new_player_xy[1]][new_player_xy[0]] = KEY_SPACE; //feld auf space setzen
 	put_picture(game->mlx, game->player_xy, 1, game->img_space); //vorheriges feld auf space setzen
 	ft_memcpy(game->player_xy, new_player_xy, sizeof(new_player_xy)); //player pos aktualisieren
-	put_picture(game->mlx, game->player_xy, 1, game->img_player); //player auf neues feld drucken
+	if (player_dir != '0')
+		game->player_direction = player_dir;
+	if (game->player_direction == 'R')
+		put_picture(game->mlx, game->player_xy, 1, game->img_player_right); //player auf neues feld drucken
+	else
+		put_picture(game->mlx, game->player_xy, 1, game->img_player_left); //player auf neues feld drucken
 }
 
 
@@ -252,13 +264,13 @@ void	keyhook(mlx_key_data_t keydata, void* param)
 		return ;
 	}
 	if (keydata.key == MLX_KEY_W)
-		walk(game, 0, -1);
+		walk(game, 0, -1, '0');
 	if (keydata.key == MLX_KEY_A)
-		walk(game, -1, 0);
+		walk(game, -1, 0, 'L');
 	if (keydata.key == MLX_KEY_S)
-		walk(game, 0, 1);
+		walk(game, 0, 1, '0');
 	if (keydata.key == MLX_KEY_D)
-		walk(game, 1, 0);
+		walk(game, 1, 0, 'R');
 }
 
 int	main(int argc, char **argv)
