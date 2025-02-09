@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 15:49:11 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/09 21:17:52 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,5 +161,6 @@ int	main(int argc, char **argv)
 	mlx_key_hook(game.mlx, keyhook, &game);
 	mlx_loop(game.mlx);
 	mlx_terminate(game.mlx);
+	free(game.map);
 	return (EXIT_SUCCESS);
 }
