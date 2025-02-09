@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: ghamnbrec <ghambrec@student.42heilbronn    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:56:14 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 15:49:06 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/09 17:28:42 by ghamnbrec        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define PNG_EXIT_FINISH "./textures/flag_finish.png"
 # define PNG_PLAYER_RIGHT "./textures/mario_right.png"
 # define PNG_PLAYER_LEFT "./textures/mario_left.png"
+# define PNG_WIN "./textures/win.png"
 
 # include "../lib/myLibft/include/my_libft.h"
 # include "../lib/MLX42/include/MLX42/MLX42.h"
@@ -44,6 +45,7 @@ typedef struct s_textures
 	mlx_texture_t	*exit_finished;
 	mlx_texture_t	*player_right;
 	mlx_texture_t	*player_left;
+	mlx_texture_t	*win;
 }	t_textures;
 
 // typedef struct s_img
@@ -71,6 +73,7 @@ typedef struct s_game
 	mlx_image_t	*img_exit_finished;
 	mlx_image_t	*img_player_right;
 	mlx_image_t	*img_player_left;
+	mlx_image_t *img_win;
 }	t_game;
 
 // to sort :((()))

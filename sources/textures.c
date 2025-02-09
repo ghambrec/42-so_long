@@ -6,13 +6,12 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:42:10 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 15:43:29 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/09 18:37:19 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-// error check nach jedem notwendig oder am ende nur einmal auf errno pruefen? was ist goto?
 void	load_textures(t_textures *textures)
 {
 	textures->space = mlx_load_png(PNG_SPACE);
@@ -32,10 +31,13 @@ void	load_textures(t_textures *textures)
 		perror_exit_mlx("Could not load exit_finished png");
 	textures->player_right = mlx_load_png(PNG_PLAYER_RIGHT);
 	if (!textures->player_right)
-		perror_exit_mlx("Could not load player_right");
+		perror_exit_mlx("Could not load player_right png");
 	textures->player_left = mlx_load_png(PNG_PLAYER_LEFT);
 	if (!textures->player_left)
-		perror_exit_mlx("Could not load player_left");
+		perror_exit_mlx("Could not load player_left png");
+	textures->win = mlx_load_png(PNG_WIN);
+	if (!textures->win)
+		perror_exit_mlx("Could not load win png ");
 }
 
 void	load_images(t_game *game, t_textures *textures)
@@ -60,6 +62,9 @@ void	load_images(t_game *game, t_textures *textures)
 		perror_exit_mlx("Failed to load player_right texture into image");
 	game->img_player_left = mlx_texture_to_image(game->mlx, textures->player_left);
 	if (!game->img_player_left)
+		perror_exit_mlx("Failed to load player_left texture into image");
+	game->img_win = mlx_texture_to_image(game->mlx, textures->win);
+	if (!game->img_win)
 		perror_exit_mlx("Failed to load player_left texture into image");
 }
 

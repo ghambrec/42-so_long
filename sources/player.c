@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:47:20 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/05 15:48:17 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/09 18:37:16 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ void	walk(t_game *game, int32_t x, int32_t y, char player_dir)
 		put_picture(game->mlx, game->player_xy, 1, game->img_space);
 		ft_memcpy(game->player_xy, new_player_xy, sizeof(new_player_xy));
 		put_picture(game->mlx, game->player_xy, 2, game->img_space, game->img_exit_finished);
+		int win_x = (game->screen_x * PIXEL) / 2 - 48;
+		int win_y = (game->screen_y * PIXEL) / 2 - 48;
+		mlx_image_to_window(game->mlx, game->img_win, win_x, win_y);
 		return ;
 	}
 	if (game->map[new_player_xy[1]][new_player_xy[0]] == KEY_WALL || game->map[new_player_xy[1]][new_player_xy[0]] == KEY_EXIT)
