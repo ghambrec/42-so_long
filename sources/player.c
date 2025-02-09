@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:47:20 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/09 18:37:16 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/09 21:06:29 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	walk(t_game *game, int32_t x, int32_t y, char player_dir)
 {
 	int32_t new_player_xy[2];
+	static int moves = 0;
 
 	new_player_xy[0] = game->player_xy[0] + x;
 	new_player_xy[1] = game->player_xy[1] + y;
@@ -28,6 +29,7 @@ void	walk(t_game *game, int32_t x, int32_t y, char player_dir)
 		int win_x = (game->screen_x * PIXEL) / 2 - 48;
 		int win_y = (game->screen_y * PIXEL) / 2 - 48;
 		mlx_image_to_window(game->mlx, game->img_win, win_x, win_y);
+		ft_printf("moves: %i\n", moves + 1);
 		return ;
 	}
 	if (game->map[new_player_xy[1]][new_player_xy[0]] == KEY_WALL || game->map[new_player_xy[1]][new_player_xy[0]] == KEY_EXIT)
@@ -41,6 +43,8 @@ void	walk(t_game *game, int32_t x, int32_t y, char player_dir)
 		put_picture(game->mlx, game->player_xy, 1, game->img_player_right); //player auf neues feld drucken
 	else
 		put_picture(game->mlx, game->player_xy, 1, game->img_player_left); //player auf neues feld drucken
+	moves++;
+	ft_printf("moves: %i\n", moves);
 }
 
 void	keyhook(mlx_key_data_t keydata, void* param)
