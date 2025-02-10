@@ -6,11 +6,16 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 18:40:37 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:55:34 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+void	sys_leaks(void)
+{
+	system("leaks so_long");
+}
 
 void	check_argument(int argc, char *map_name)
 {
@@ -64,6 +69,7 @@ void	get_map(char *map_name, t_game *game)
 		exit(EXIT_FAILURE);
 	}
 	map_validation(game, storage);
+	free_map(game->flood_map);
 	free(storage);
 }
 
@@ -126,6 +132,7 @@ int	main(int argc, char **argv)
 	t_game		game;
 	t_textures	textures;
 	// t_img		img;
+	atexit(sys_leaks);
 	
 	check_argument(argc, argv[1]);
 	get_map(argv[1], &game);

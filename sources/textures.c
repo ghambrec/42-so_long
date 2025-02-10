@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:42:10 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/09 18:37:19 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/10 19:08:33 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,27 +43,35 @@ void	load_textures(t_textures *textures)
 void	load_images(t_game *game, t_textures *textures)
 {
 	game->img_space = mlx_texture_to_image(game->mlx, textures->space);
+	mlx_delete_texture(textures->space);
 	if (!game->img_space)
 		perror_exit_mlx("Failed to load space texture into image");
 	game->img_wall = mlx_texture_to_image(game->mlx, textures->wall);
+	mlx_delete_texture(textures->wall);
 	if (!game->img_wall)
 		perror_exit_mlx("Failed to load wall texture into image");
 	game->img_coll = mlx_texture_to_image(game->mlx, textures->coll);
+	mlx_delete_texture(textures->coll);
 	if (!game->img_coll)
 		perror_exit_mlx("Failed to load collectible texture into image");
 	game->img_exit = mlx_texture_to_image(game->mlx, textures->exit);
+	mlx_delete_texture(textures->exit);
 	if (!game->img_exit)
 		perror_exit_mlx("Failed to load exit texture into image");
 	game->img_exit_finished = mlx_texture_to_image(game->mlx, textures->exit_finished);
+	mlx_delete_texture(textures->exit_finished);
 	if (!game->img_exit_finished)
 		perror_exit_mlx("Failed to load exit_finished texture into image");
 	game->img_player_right = mlx_texture_to_image(game->mlx, textures->player_right);
+	mlx_delete_texture(textures->player_right);
 	if (!game->img_player_right)
 		perror_exit_mlx("Failed to load player_right texture into image");
 	game->img_player_left = mlx_texture_to_image(game->mlx, textures->player_left);
+	mlx_delete_texture(textures->player_left);
 	if (!game->img_player_left)
 		perror_exit_mlx("Failed to load player_left texture into image");
 	game->img_win = mlx_texture_to_image(game->mlx, textures->win);
+	mlx_delete_texture(textures->win);
 	if (!game->img_win)
 		perror_exit_mlx("Failed to load player_left texture into image");
 }
