@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 12:36:45 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 12:50:16 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:18:58 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,27 @@ int	count_collectibles(char **map)
 		y++;
 	}
 	return (number_coll);
+}
+
+void	set_player_coords(t_game *game)
+{
+	int32_t	x;
+	int32_t	y;
+
+	y = 0;
+	while (game->map[y])
+	{
+		x = 0;
+		while (game->map[y][x])
+		{
+			if (game->map[y][x] == KEY_PLAYER)
+			{
+				game->player_xy[0] = x;
+				game->player_xy[1] = y;
+				return ;
+			}
+			x++;
+		}
+		y++;
+	}
 }

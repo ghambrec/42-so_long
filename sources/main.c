@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 13:21:14 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:24:00 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,14 @@ void	get_map(char *map_name, t_game *game)
 	}
 	free(new_line);
 	game->map = ft_split(storage, '\n');
+	game->map_flood = ft_split(storage, '\n');
 	if (!game->map)
 	{
 		free(storage);
 		ft_putendl_fd("Error\nSplit failed", STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
-	map_validation(game->map, storage);
+	map_validation(game, storage);
 	free(storage);
 }
 
@@ -81,17 +82,12 @@ void	get_window_size(t_game *game)
 
 
 
-void set_player_coords(t_game *game, int32_t xy[2])
-{
-	game->player_xy[0] = xy[0];
-	game->player_xy[1] = xy[1];
-	game->player_direction = 'R';
-}
 
 void	map_init(t_game *game)
 {
 	int32_t	xy[2];
 
+	game->player_direction = 'R';
 	xy[1] = 0;
 	while (game->map[xy[1]])
 	{
@@ -107,10 +103,7 @@ void	map_init(t_game *game)
 			if (game->map[xy[1]][xy[0]] == KEY_EXIT)
 				put_picture(game->mlx, xy, 2, game->img_space, game->img_exit);
 			if (game->map[xy[1]][xy[0]] == KEY_PLAYER)
-			{
-				set_player_coords(game, xy);
 				put_picture(game->mlx, xy, 2, game->img_space, game->img_player_right);
-			}
 			xy[0]++;
 		}
 		xy[1]++;

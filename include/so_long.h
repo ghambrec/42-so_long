@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:56:14 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 14:03:10 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:24:35 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_game
 {
 	mlx_t		*mlx;
 	char		**map;
+	char		**map_flood;
 	int32_t		screen_x;
 	int32_t		screen_y;
 	int32_t		player_xy[2];
@@ -79,6 +80,7 @@ typedef struct s_game
 // HELPER
 void	free_map(char **map);
 int		count_collectibles(char **map);
+void	set_player_coords(t_game *game);
 
 // ERROR-HANDLING
 void	perror_exit_mlx(char *error_msg);
@@ -94,7 +96,7 @@ void	walk(t_game *game, int32_t x, int32_t y, char player_dir);
 void	keyhook(mlx_key_data_t keydata, void* param);
 
 // MAP VALIDATION
-void	map_validation(char **map, char *map_string);
+void	map_validation(t_game *game, char *map_string);
 void	validate_characters(char **map, char *map_string);
 void	validate_rectangular(char **map, char *map_string);
 void	validate_surrounding(char **map, char *map_string);
