@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 17:24:00 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:40:37 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	get_map(char *map_name, t_game *game)
 	}
 	free(new_line);
 	game->map = ft_split(storage, '\n');
-	game->map_flood = ft_split(storage, '\n');
+	game->flood_map = ft_split(storage, '\n');
 	if (!game->map)
 	{
 		free(storage);
