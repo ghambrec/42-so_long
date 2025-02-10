@@ -2,3 +2,6 @@ lib/
 so_long
 objects/
 .vscode/
+maps_err/
+maps_valid/
+Tester_so_long.sh

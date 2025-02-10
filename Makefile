@@ -6,7 +6,7 @@
 #    By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 13:35:48 by ghambrec          #+#    #+#              #
-#    Updated: 2025/02/10 13:01:10 by ghambrec         ###   ########.fr        #
+#    Updated: 2025/02/10 14:30:44 by ghambrec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ MLX_FULL = $(MLX_NAME) -ldl -lglfw -pthread -lm
 # ---------- SOURCES ---------- #
 VPATH = ./sources ./sources/map_validation
 SOURCES =	main.c error_handling.c textures.c player.c helper.c \
-			map_validation.c validate_characters.c
+			map_validation.c validate_characters.c validate_rectangular.c validate_surrounding.c validate_path.c
 
 # ---------- OBJECTS ---------- #
 OBJECT_DIR = objects

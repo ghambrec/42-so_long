@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 12:51:03 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/10 13:21:14 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	get_map(char *map_name, t_game *game)
 		exit(EXIT_FAILURE);
 	}
 	map_validation(game->map, storage);
-	// free(storage);    muss in map valdiation am ende gefreet werden bei exit ansonsten hier?
+	free(storage);
 }
 
 void	get_window_size(t_game *game)

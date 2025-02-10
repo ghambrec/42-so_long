@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:56:14 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 13:00:34 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:03:10 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,8 @@ void	keyhook(mlx_key_data_t keydata, void* param);
 // MAP VALIDATION
 void	map_validation(char **map, char *map_string);
 void	validate_characters(char **map, char *map_string);
+void	validate_rectangular(char **map, char *map_string);
+void	validate_surrounding(char **map, char *map_string);
+void	validate_path(char **map, char *map_string);
 
 #endif
