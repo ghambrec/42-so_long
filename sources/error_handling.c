@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:38:53 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 13:00:18 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:55:20 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ void	perror_exit_mlx(char *error_msg)
 
 
 
-void	validate_error(char *error_msg, char **map, char *map_string)
+void	validate_error(char *error_msg, t_game *game, char *map_string)
 {
 	free(map_string);
-	free_map(map);
+	free_map(game->map);
+	free_map(game->flood_map);
 	ft_putendl_fd("Error", STDERR_FILENO);
 	ft_putendl_fd(error_msg, STDERR_FILENO);
 	exit(EXIT_FAILURE);

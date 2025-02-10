@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:56:14 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 17:24:35 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:58:41 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ typedef struct s_game
 {
 	mlx_t		*mlx;
 	char		**map;
-	char		**map_flood;
+	char		**flood_map;
+	int			flood_exit;
+	int			flood_colls;
 	int32_t		screen_x;
 	int32_t		screen_y;
 	int32_t		player_xy[2];
@@ -84,7 +86,7 @@ void	set_player_coords(t_game *game);
 
 // ERROR-HANDLING
 void	perror_exit_mlx(char *error_msg);
-void	validate_error(char *error_msg, char **map, char *map_string);
+void	validate_error(char *error_msg, t_game *game, char *map_string);
 
 // TEXTURES
 void	load_textures(t_textures *textures);
@@ -97,9 +99,9 @@ void	keyhook(mlx_key_data_t keydata, void* param);
 
 // MAP VALIDATION
 void	map_validation(t_game *game, char *map_string);
-void	validate_characters(char **map, char *map_string);
-void	validate_rectangular(char **map, char *map_string);
-void	validate_surrounding(char **map, char *map_string);
-void	validate_path(char **map, char *map_string);
+void	validate_characters(t_game *game, char *map_string);
+void	validate_rectangular(t_game *game, char *map_string);
+void	validate_surrounding(t_game *game, char *map_string);
+void	validate_path(t_game *game, char *map_string);
 
 #endif

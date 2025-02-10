@@ -6,23 +6,23 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:26:53 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 13:43:13 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:56:36 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	validate_rectangular(char **map, char *map_string)
+void	validate_rectangular(t_game *game, char *map_string)
 {
 	size_t	init_x;
 	int	i;
 
-	init_x = ft_strlen(map[0]);
+	init_x = ft_strlen(game->map[0]);
 	i = 0;
-	while (map[i])
+	while (game->map[i])
 	{
-		if (ft_strlen(map[i]) != init_x)
-			validate_error("Map not rectangular!", map, map_string);
+		if (ft_strlen(game->map[i]) != init_x)
+			validate_error("Map not rectangular!", game, map_string);
 		i++;
 	}
 }

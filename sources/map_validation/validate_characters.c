@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 12:20:27 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 13:23:58 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:55:50 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	count_characters(char *map_string, char character)
 	return (counter);
 }
 
-void	validate_characters(char **map, char *map_string)
+void	validate_characters(t_game *game, char *map_string)
 {
 	int		num_player;
 	int		num_exit;
@@ -35,18 +35,18 @@ void	validate_characters(char **map, char *map_string)
 	
 	num_player = count_characters(map_string, KEY_PLAYER);
 	if (num_player != 1)
-		validate_error("Map needs exactly 1 Player to be valid!", map, map_string);
+		validate_error("Map needs exactly 1 Player to be valid!", game, map_string);
 	num_exit = count_characters(map_string, KEY_EXIT);
 	if (num_exit != 1)
-		validate_error("Map needs exactly 1 Exit to be valid!", map, map_string);
-	num_coll = count_collectibles(map);
+		validate_error("Map needs exactly 1 Exit to be valid!", game, map_string);
+	num_coll = count_collectibles(game->map);
 	if (num_coll == 0)
-		validate_error("No collectibles!", map, map_string);
+		validate_error("No collectibles!", game, map_string);
 	cpy = map_string;
 	while (*cpy)
 	{
 		if (*cpy != KEY_COLL && *cpy != KEY_EXIT && *cpy != KEY_PLAYER && *cpy != KEY_SPACE && *cpy != KEY_WALL && *cpy != '\n')
-			validate_error("Invalid character in map file!", map, map_string);
+			validate_error("Invalid character in map file!", game, map_string);
 		cpy++;
 	}
 }
