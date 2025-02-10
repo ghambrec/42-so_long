@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/09 21:17:52 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/10 12:51:03 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,12 @@ void	get_map(char *map_name, t_game *game)
 	game->map = ft_split(storage, '\n');
 	if (!game->map)
 	{
+		free(storage);
 		ft_putendl_fd("Error\nSplit failed", STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
-	free(storage);
+	map_validation(game->map, storage);
+	// free(storage);    muss in map valdiation am ende gefreet werden bei exit ansonsten hier?
 }
 
 void	get_window_size(t_game *game)
@@ -84,28 +86,6 @@ void set_player_coords(t_game *game, int32_t xy[2])
 	game->player_xy[0] = xy[0];
 	game->player_xy[1] = xy[1];
 	game->player_direction = 'R';
-}
-
-int	count_collectibles(t_game *game)
-{
-	int32_t x;
-	int32_t y;
-	int		number_coll;
-
-	number_coll = 0;
-	y = 0;
-	while (game->map[y])
-	{
-		x = 0;
-		while (game->map[y][x])
-		{
-			if (game->map[y][x] == KEY_COLL)
-				number_coll++;
-			x++;
-		}
-		y++;
-	}
-	return (number_coll);
 }
 
 void	map_init(t_game *game)
@@ -161,6 +141,6 @@ int	main(int argc, char **argv)
 	mlx_key_hook(game.mlx, keyhook, &game);
 	mlx_loop(game.mlx);
 	mlx_terminate(game.mlx);
-	free(game.map);
+	free_map(game.map);
 	return (EXIT_SUCCESS);
 }

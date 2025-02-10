@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ghamnbrec <ghambrec@student.42heilbronn    +#+  +:+       +#+        */
+/*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:56:14 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/09 17:28:42 by ghamnbrec        ###   ########.fr       */
+/*   Updated: 2025/02/10 13:00:34 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,13 @@ typedef struct s_game
 	mlx_image_t *img_win;
 }	t_game;
 
-// to sort :((()))
-int	count_collectibles(t_game *game);
-
+// HELPER
+void	free_map(char **map);
+int		count_collectibles(char **map);
 
 // ERROR-HANDLING
-void	perror_exit_mlx(char *error);
+void	perror_exit_mlx(char *error_msg);
+void	validate_error(char *error_msg, char **map, char *map_string);
 
 // TEXTURES
 void	load_textures(t_textures *textures);
@@ -92,5 +93,8 @@ void	put_picture(mlx_t *mlx, int32_t xy[2], int c, ...);
 void	walk(t_game *game, int32_t x, int32_t y, char player_dir);
 void	keyhook(mlx_key_data_t keydata, void* param);
 
+// MAP VALIDATION
+void	map_validation(char **map, char *map_string);
+void	validate_characters(char **map, char *map_string);
 
 #endif

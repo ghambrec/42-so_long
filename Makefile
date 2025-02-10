@@ -6,7 +6,7 @@
 #    By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 13:35:48 by ghambrec          #+#    #+#              #
-#    Updated: 2025/02/05 15:48:25 by ghambrec         ###   ########.fr        #
+#    Updated: 2025/02/10 13:01:10 by ghambrec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,9 @@ MLX_NAME = $(MLX_DIR)/build/libmlx42.a
 MLX_FULL = $(MLX_NAME) -ldl -lglfw -pthread -lm
 
 # ---------- SOURCES ---------- #
-VPATH = ./sources
-SOURCES =	main.c error_handling.c textures.c player.c
+VPATH = ./sources ./sources/map_validation
+SOURCES =	main.c error_handling.c textures.c player.c helper.c \
+			map_validation.c validate_characters.c
 
 # ---------- OBJECTS ---------- #
 OBJECT_DIR = objects

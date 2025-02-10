@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 15:47:20 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/09 21:06:29 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/10 12:26:44 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	walk(t_game *game, int32_t x, int32_t y, char player_dir)
 	new_player_xy[1] = game->player_xy[1] + y;
 	if (game->map[game->player_xy[1]][game->player_xy[0]] == KEY_EXIT)
 		return ;
-	if (game->map[new_player_xy[1]][new_player_xy[0]] == KEY_EXIT && count_collectibles(game) == 0)
+	if (game->map[new_player_xy[1]][new_player_xy[0]] == KEY_EXIT && count_collectibles(game->map) == 0)
 	{
 		put_picture(game->mlx, game->player_xy, 1, game->img_space);
 		ft_memcpy(game->player_xy, new_player_xy, sizeof(new_player_xy));
