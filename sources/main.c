@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/11 11:40:39 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:54:46 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ void	get_map(char *map_name, t_game *game)
 	}
 	tmp = ft_strdup("");
 	new_line = get_next_line(fd);
+	if (!new_line)
+	{
+		ft_putendl_cc_fd("Error\nEmpty map file", STDERR_FILENO);
+		exit(EXIT_FAILURE);
+	}
 	while (new_line)
 	{
 		storage = ft_strjoin(tmp, new_line);
