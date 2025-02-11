@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 18:55:34 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:40:39 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,12 +131,10 @@ int	main(int argc, char **argv)
 {
 	t_game		game;
 	t_textures	textures;
-	// t_img		img;
-	atexit(sys_leaks);
+	// atexit(sys_leaks);
 	
 	check_argument(argc, argv[1]);
-	get_map(argv[1], &game);
-	// validate map hier einbauen!
+	get_map(argv[1], &game); //heir val mit drin
 	create_game_map(&game, &textures);
 	mlx_key_hook(game.mlx, keyhook, &game);
 	mlx_loop(game.mlx);
