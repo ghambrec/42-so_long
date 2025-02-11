@@ -6,7 +6,7 @@
 #    By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 13:35:48 by ghambrec          #+#    #+#              #
-#    Updated: 2025/02/11 12:25:19 by ghambrec         ###   ########.fr        #
+#    Updated: 2025/02/11 13:00:47 by ghambrec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,9 +44,7 @@ NC = \033[0m
 # ---------- RULES ---------- #
 all: $(NAME)
 
-# $(NAME): checkMyLibft checkMLX $(LIBFT_NAME) createLibMLX $(OBJECTS)
-# zum testen ohne createLibMLX
-$(NAME): checkMyLibft checkMLX $(LIBFT_NAME) $(OBJECTS)
+$(NAME): checkMyLibft checkMLX $(LIBFT_NAME) createLibMLX $(OBJECTS)
 	@echo "$(YELLOW)Compiling $(NAME)...$(NC)"
 	@cc $(CFLAGS) $(OBJECTS) $(LIBFT_FULL) $(MLX_FULL) -o $(NAME)
 	@if [ -f $(NAME) ]; then \

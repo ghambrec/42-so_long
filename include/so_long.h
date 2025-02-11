@@ -6,14 +6,14 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:56:14 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/11 12:45:40 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/11 13:05:38 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# define PROGRAM_NAME "so_long"
+# define PROGRAM_NAME "Super Mario"
 # define PIXEL 32
 
 # define KEY_SPACE '0'
@@ -48,15 +48,6 @@ typedef struct s_textures
 	mlx_texture_t	*win;
 }	t_textures;
 
-// typedef struct s_img
-// {
-// 	mlx_image_t	*space;
-// 	mlx_image_t	*wall;
-// 	mlx_image_t	*coll;
-// 	mlx_image_t	*exit;
-// 	mlx_image_t	*player;
-// }	t_img;
-
 typedef struct s_game
 {
 	mlx_t		*mlx;
@@ -76,7 +67,7 @@ typedef struct s_game
 	mlx_image_t	*img_exit_finished;
 	mlx_image_t	*img_player_right;
 	mlx_image_t	*img_player_left;
-	mlx_image_t *img_win;
+	mlx_image_t	*img_win;
 }	t_game;
 
 // HELPER
@@ -105,7 +96,7 @@ void	put_picture(mlx_t *mlx, int32_t xy[2], int c, ...);
 
 // PLAYER
 void	walk(t_game *game, int32_t x, int32_t y, char player_dir);
-void	keyhook(mlx_key_data_t keydata, void* param);
+void	keyhook(mlx_key_data_t keydata, void *param);
 
 // MAP VALIDATION
 void	map_validation(t_game *game, char *map_string);
