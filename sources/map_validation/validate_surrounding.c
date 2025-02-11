@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:44:31 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 17:57:56 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:51:11 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	get_size_y(char **map)
 {
-	int c;
+	int	c;
 
 	c = 0;
 	while (map[c])
@@ -30,7 +30,6 @@ void	validate_surrounding(t_game *game, char *map_string)
 
 	size_x = ft_strlen(game->map[0]);
 	size_y = get_size_y(game->map);
-
 	i = 0;
 	while (game->map[0][i])
 	{

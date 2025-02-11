@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:03:25 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/11 11:43:21 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:50:41 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ static void	floodfill(int x, int y, t_game *game)
 	if (game->flood_map[y][x] == KEY_EXIT)
 	{
 		game->flood_exit = true;
-		return ;	
+		return ;
 	}
 	if (game->flood_map[y][x] == KEY_COLL)
 		game->flood_colls++;
 	game->flood_map[y][x] = 'X';
 	floodfill(x, y + 1, game);
 	floodfill(x, y - 1, game);
-	floodfill(x + 1, y, game); 
-	floodfill(x - 1, y, game); 
+	floodfill(x + 1, y, game);
+	floodfill(x - 1, y, game);
 }
 
 void	validate_path(t_game *game, char *map_string)

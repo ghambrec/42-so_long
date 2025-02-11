@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:26:53 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 17:56:36 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:50:49 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	validate_rectangular(t_game *game, char *map_string)
 {
 	size_t	init_x;
-	int	i;
+	int		i;
 
 	init_x = ft_strlen(game->map[0]);
 	i = 0;
