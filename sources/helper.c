@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 12:36:45 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 18:38:19 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/11 11:56:01 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_map(char **map)
 {
-	int pos;
+	int	pos;
 
 	if (!map)
 		return ;
@@ -30,8 +30,8 @@ void	free_map(char **map)
 
 int	count_collectibles(char **map)
 {
-	int32_t x;
-	int32_t y;
+	int32_t	x;
+	int32_t	y;
 	int		number_coll;
 
 	number_coll = 0;

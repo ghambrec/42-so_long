@@ -6,16 +6,16 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:57:55 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/11 11:54:46 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:19:53 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	sys_leaks(void)
-{
-	system("leaks so_long");
-}
+// void	sys_leaks(void)
+// {
+// 	system("leaks so_long");
+// }
 
 void	check_argument(int argc, char *map_name)
 {
