@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 10:56:14 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/10 17:58:41 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:45:40 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,20 @@ typedef struct s_game
 void	free_map(char **map);
 int		count_collectibles(char **map);
 void	set_player_coords(t_game *game);
+void	set_window_size(t_game *game);
+void	split_into_maps(t_game *game, char *map_string);
+
+// MAP
+void	get_map(char *map_name, t_game *game);
+void	map_init(t_game *game);
+void	create_game_map(t_game *game, t_textures *textures);
 
 // ERROR-HANDLING
 void	perror_exit_mlx(char *error_msg);
 void	validate_error(char *error_msg, t_game *game, char *map_string);
+void	error_open_map(void);
+void	error_empty_map_file(void);
+void	error_split_failed(t_game *game, char *map_string);
 
 // TEXTURES
 void	load_textures(t_textures *textures);

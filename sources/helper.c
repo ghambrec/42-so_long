@@ -6,7 +6,7 @@
 /*   By: ghambrec <ghambrec@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 12:36:45 by ghambrec          #+#    #+#             */
-/*   Updated: 2025/02/11 11:56:01 by ghambrec         ###   ########.fr       */
+/*   Updated: 2025/02/11 12:42:58 by ghambrec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,25 @@ void	set_player_coords(t_game *game)
 		}
 		y++;
 	}
+}
+
+void	set_window_size(t_game *game)
+{
+	int	i;
+
+	game->screen_x = ft_strlen(game->map[0]);
+	i = 0;
+	while (game->map[i] != NULL && game->map[i][0] == '1')
+	{
+		i++;
+	}
+	game->screen_y = i;
+}
+
+void	split_into_maps(t_game *game, char *map_string)
+{
+	game->map = ft_split(map_string, '\n');
+	game->flood_map = ft_split(map_string, '\n');
+	if (!game->map || !game->flood_map)
+		error_split_failed(game, map_string);
 }
